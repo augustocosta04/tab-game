@@ -214,6 +214,7 @@ function handleServerUpdate(data) {
         game.winner = data.winner;
         
         // Save to ranking
+        // Server may provide winner as color ('red'/'blue') or nick - check both
         const won = (data.winner === myColor) || (data.winner === networkClient.nick);
         saveGameToRanking(networkClient.nick, won, 'online');
         
@@ -461,9 +462,13 @@ function updateButtonStates() {
 function animateDiceRoll(value) {
     if (!diceCtx || !diceCanvas) return;
     
+    // Animation constants
+    const MAX_FRAMES = 20;
+    const FRAME_DELAY_MS = 50;
+    const FLICKER_PROBABILITY = 0.3;
+    
     // Simple canvas animation for dice roll
     let frame = 0;
-    const maxFrames = 20;
 
     const animate = () => {
         diceCtx.clearRect(0, 0, diceCanvas.width, diceCanvas.height);
@@ -477,7 +482,7 @@ function animateDiceRoll(value) {
 
         // Generate random appearance during animation, final result at end
         const sticks = [];
-        if (frame < maxFrames - 1) {
+        if (frame < MAX_FRAMES - 1) {
             for (let i = 0; i < 4; i++) {
                 sticks.push(Math.random() < 0.5 ? 0 : 1);
             }
@@ -497,15 +502,15 @@ function animateDiceRoll(value) {
             diceCtx.fillRect(x, startY, stickWidth, stickHeight);
             
             // Add flicker effect during animation
-            if (frame < maxFrames - 1 && Math.random() < 0.3) {
+            if (frame < MAX_FRAMES - 1 && Math.random() < FLICKER_PROBABILITY) {
                 diceCtx.fillStyle = 'rgba(255, 255, 255, 0.5)';
                 diceCtx.fillRect(x, startY, stickWidth, stickHeight);
             }
         }
 
         frame++;
-        if (frame < maxFrames) {
-            setTimeout(animate, 50);
+        if (frame < MAX_FRAMES) {
+            setTimeout(animate, FRAME_DELAY_MS);
         }
     };
 

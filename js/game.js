@@ -141,11 +141,12 @@ class Game {
         
         // In local mode, trigger AI if it's AI's turn
         if (!this.isOnline && this.ai && this.currentPlayer === this.ai.player) {
+            const AI_MOVE_DELAY_MS = 1000; // Delay before AI makes move
             setTimeout(() => {
                 if (this.gameState === 'playing') {
                     this.ai.makeMove(this);
                 }
-            }, 1000);
+            }, AI_MOVE_DELAY_MS);
         }
     }
 

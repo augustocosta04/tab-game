@@ -4,8 +4,9 @@ class Board {
         this.size = size; // 3 rows or 4 rows
         this.cols = size === 3 ? 8 : 12;
         this.squares = this.initializeBoard();
-        this.cellSize = 60;
-        this.padding = 20;
+        // Visual layout constants
+        this.cellSize = 60;  // Size of each board cell in pixels
+        this.padding = 20;   // Padding around the board
     }
 
     initializeBoard() {

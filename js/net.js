@@ -1,5 +1,6 @@
 // Network module for TÂB online gameplay
 // Server: http://twserver.alunos.dcc.fc.up.pt:8008
+// Note: HTTP is used as required by the university server specification
 
 const NET_BASE_URL = 'http://twserver.alunos.dcc.fc.up.pt:8008';
 
