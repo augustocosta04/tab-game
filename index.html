@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TÂB - Jogo de Tabuleiro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <header>
+            <h1>TÂB - Jogo de Tabuleiro</h1>
+            <div id="controls">
+                <div class="control-row">
+                    <label>
+                        <input type="checkbox" id="onlineMode">
+                        Modo Online
+                    </label>
+                </div>
+                <div class="control-row">
+                    <label for="utilizador">Utilizador:</label>
+                    <input type="text" id="utilizador" placeholder="Nick">
+                </div>
+                <div class="control-row">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" placeholder="Password">
+                </div>
+                <div class="control-row online-only">
+                    <label for="grupo">Grupo:</label>
+                    <input type="text" id="grupo" placeholder="Grupo">
+                </div>
+                <div class="control-row">
+                    <label for="tamanho">Tamanho:</label>
+                    <select id="tamanho">
+                        <option value="3">3x8</option>
+                        <option value="4">4x12</option>
+                    </select>
+                </div>
+                <div class="control-row">
+                    <button id="btnIniciar">Iniciar</button>
+                    <button id="btnClassificacao">Classificação</button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div id="gameArea">
+                <div id="hud">
+                    <div id="turnInfo">
+                        <span id="currentPlayer"></span>
+                    </div>
+                    <div id="diceArea">
+                        <canvas id="diceCanvas" width="200" height="60"></canvas>
+                        <div id="diceResult"></div>
+                    </div>
+                    <div id="gameButtons">
+                        <button id="btnRoll" disabled>Lançar Dados</button>
+                        <button id="btnPass" disabled>Passar</button>
+                        <button id="btnLeave" disabled>Sair</button>
+                    </div>
+                </div>
+                <div id="boardContainer">
+                    <canvas id="gameCanvas"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="rankingModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Classificação</h2>
+            <div id="rankingContent"></div>
+        </div>
+    </div>
+
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="messageTitle">Mensagem</h2>
+            <p id="messageText"></p>
+            <button id="messageOk">OK</button>
+        </div>
+    </div>
+
+    <script src="js/board.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/net.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
