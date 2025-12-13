@@ -86,8 +86,23 @@ function updateUIForMode() {
     }
 }
 
+function cleanupPreviousGame() {
+    // Clean up any previous game state
+    if (networkClient && networkClient.gameId) {
+        networkClient.disconnect();
+    }
+    game = null;
+    networkClient = null;
+    waitingForServer = false;
+    isMyTurn = false;
+    myColor = null;
+}
+
 async function handleIniciar() {
     const size = parseInt(tamanhoSelect.value);
+
+    // Clean up any previous game
+    cleanupPreviousGame();
 
     if (isOnlineMode) {
         await startOnlineGame(size);
@@ -210,7 +225,18 @@ function handleServerUpdate(data) {
 
 function handleServerError(error) {
     console.error('Server error:', error);
-    showMessage('Erro do Servidor', 'Conexão perdida com o servidor.');
+    
+    // Clean up on disconnect
+    if (networkClient) {
+        networkClient.disconnect();
+    }
+    
+    btnIniciar.disabled = false;
+    btnLeave.disabled = true;
+    waitingForServer = false;
+    isMyTurn = false;
+    
+    showMessage('Erro do Servidor', 'Conexão perdida com o servidor. Clique em "Iniciar" para começar um novo jogo.');
 }
 
 async function handleRoll() {
@@ -433,6 +459,8 @@ function updateButtonStates() {
 }
 
 function animateDiceRoll(value) {
+    if (!diceCtx || !diceCanvas) return;
+    
     // Simple canvas animation for dice roll
     let frame = 0;
     const maxFrames = 20;
