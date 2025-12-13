@@ -132,6 +132,11 @@ async function startOnlineGame(size) {
         return;
     }
 
+    // Store player's color if provided by server
+    if (joinResult.data && joinResult.data.color) {
+        myColor = joinResult.data.color;
+    }
+
     // Initialize game
     game = new Game(size, true);
     setupCanvas(size);
@@ -162,8 +167,19 @@ function handleServerUpdate(data) {
         game.setCurrentPlayer(data.turn);
     }
 
+    // Detect player's color if not set yet
+    if (!myColor && data.stores) {
+        // Try to determine color from stores or other data
+        if (data.stores[networkClient.nick]) {
+            myColor = data.stores[networkClient.nick].color || 'red';
+        }
+    }
+
     // Check if it's my turn
-    if (data.turn === myColor || (data.player && data.player === networkClient.nick)) {
+    const isMyNick = data.player && data.player === networkClient.nick;
+    const isMyColor = myColor && data.turn === myColor;
+    
+    if (isMyNick || isMyColor) {
         isMyTurn = true;
         waitingForServer = false;
         
@@ -183,7 +199,7 @@ function handleServerUpdate(data) {
         game.winner = data.winner;
         
         // Save to ranking
-        const won = data.winner === myColor;
+        const won = (data.winner === myColor) || (data.winner === networkClient.nick);
         saveGameToRanking(networkClient.nick, won, 'online');
         
         showMessage('Fim de Jogo', `Vencedor: ${data.winner}`);
