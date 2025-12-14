@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TÂB</title>
+  <meta name="theme-color" content="#a57c25" />
+  <meta name="description" content="TÂB — jogo de tabuleiro em versão web, inspirado no Antigo Egito." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" />
+</head>
+<body class="theme-egypt">
+  <noscript><p class="noscript">Este jogo precisa de JavaScript activo.</p></noscript>
+
+  <!-- Cabeçalho -->
+  <header class="site-header" role="banner">
+    <div class="brand">
+      <svg class="cartouche" viewBox="0 0 300 120" aria-hidden="true" focusable="false">
+        <rect x="10" y="10" width="280" height="100" rx="40" ry="40"></rect>
+        <circle cx="30" cy="60" r="6"></circle>
+        <circle cx="270" cy="60" r="6"></circle>
+      </svg>
+      <h1 class="title" aria-label="TÂB">TÂB</h1>
+      <span class="subtitle" aria-hidden="true">𓂀 𓃭 𓆣 𓃣</span>
+    </div>
+
+    <!-- Identificação compacta -->
+    <details class="id-compact" id="identificacao">
+      <summary><span id="auth-label">Entrar</span></summary>
+      <form id="form-auth" class="id-menu" autocomplete="off" novalidate>
+        <label>
+          <span>Utilizador</span>
+          <input id="auth-user" name="user" type="text" inputmode="latin" />
+        </label>
+        <label>
+          <span>Senha</span>
+          <input id="auth-pass" name="pass" type="password" />
+        </label>
+        <div class="id-actions">
+          <button id="btn-auth" type="button" class="cmd xs">Entrar</button>
+          <button id="btn-auth-sair" type="button" class="cmd xs soft" hidden>Sair</button>
+        </div>
+        <p id="auth-status" class="muted" aria-live="polite">Sessão não autenticada.</p>
+      </form>
+    </details>
+  </header>
+
+  <!-- Layout principal -->
+  <main id="app" class="layout layout-tight" role="main">
+    <!-- Tabuleiro -->
+    <section class="board-wrapper" id="tabuleiro" aria-labelledby="board-title">
+      <div class="board-header">
+        <h2 id="board-title">Tabuleiro</h2>
+        <div class="turno"><span>Vez de: </span><strong id="vez-jogador">–</strong></div>
+      </div>
+
+      <!-- Board com 4 linhas e 15 colunas renderizadas no HTML -->
+      <div class="board cols-9" id="board" role="grid" aria-label="Tabuleiro TÂB">
+        <!-- Linha 0 -->
+        <div class="row" role="row" data-row="0">
+          <div class="cell" role="gridcell" data-row="0" data-col="0"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="1"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="2"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="3"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="4"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="5"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="6"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="7"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="8"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="9"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="10"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="11"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="12"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="13"></div>
+          <div class="cell" role="gridcell" data-row="0" data-col="14"></div>
+        </div>
+
+        <!-- Linha 1 -->
+        <div class="row" role="row" data-row="1">
+          <div class="cell" role="gridcell" data-row="1" data-col="0"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="1"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="2"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="3"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="4"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="5"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="6"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="7"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="8"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="9"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="10"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="11"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="12"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="13"></div>
+          <div class="cell" role="gridcell" data-row="1" data-col="14"></div>
+        </div>
+
+        <!-- Linha 2 -->
+        <div class="row" role="row" data-row="2">
+          <div class="cell" role="gridcell" data-row="2" data-col="0"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="1"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="2"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="3"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="4"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="5"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="6"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="7"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="8"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="9"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="10"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="11"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="12"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="13"></div>
+          <div class="cell" role="gridcell" data-row="2" data-col="14"></div>
+        </div>
+
+        <!-- Linha 3 -->
+        <div class="row" role="row" data-row="3">
+          <div class="cell" role="gridcell" data-row="3" data-col="0"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="1"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="2"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="3"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="4"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="5"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="6"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="7"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="8"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="9"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="10"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="11"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="12"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="13"></div>
+          <div class="cell" role="gridcell" data-row="3" data-col="14"></div>
+        </div>
+      </div>
+
+      <div class="legenda">
+        <span class="chip chip-azul" aria-label="Peças azuis"></span> Azuis
+        <span class="chip chip-vermelho" aria-label="Peças vermelhas"></span> Vermelhas
+      </div>
+    </section>
+
+    <!-- HUD lateral -->
+    <aside class="hud">
+      <!-- Dado -->
+      <section class="panel sticks" id="dado" aria-labelledby="dado-title">
+        <h2 id="dado-title">Dado</h2>
+        <div class="sticks-view" aria-live="polite" aria-atomic="true">
+          <div class="stick" data-face="desconhecida"></div>
+          <canvas id="sticks-canvas" width="160" height="90"></canvas>
+          <div class="stick" data-face="desconhecida"></div>
+          <div class="stick" data-face="desconhecida"></div>
+          <div class="stick" data-face="desconhecida"></div>
+        </div>
+        <div class="roll">
+          <button id="btn-lancar" type="button" class="cmd sm">Lançar</button>
+          <output id="valor-dado" aria-live="polite">–</output>
+        </div>
+      </section>
+
+      <!-- Mensagens -->
+      <section class="panel messages" id="mensagens">
+        <h2>Mensagens</h2>
+        <ul id="msg-list"></ul>
+      </section>
+
+      <!-- Comandos -->
+      <nav class="panel commands">
+        <div class="row">
+          <button id="btn-iniciar" class="cmd" type="button">Iniciar</button>
+          <button id="btn-passar" class="cmd" type="button" disabled>Passar</button>
+          <button id="btn-desistir" class="cmd soft" type="button" disabled>Desistir</button>
+        </div>
+        <div class="row">
+          <button id="btn-instrucoes" class="cmd ghost" type="button">Instruções</button>
+          <button id="btn-classificacoes" class="cmd ghost" type="button">Classificações</button>
+        </div>
+      </nav>
+
+      <!-- Configuração (sempre aberta agora) -->
+      <section class="panel config" id="config">
+        <h2>Configuração</h2>
+        <form id="form-config">
+          <fieldset class="field radios" id="field-modo">
+            <legend>Modo de Jogo</legend>
+            <label><input type="radio" name="modo" value="local" checked /> vs Computador</label>
+            <label><input type="radio" name="modo" value="online" /> vs Jogador Online</label>
+          </fieldset>
+          <label class="field">
+            <span>Tamanho</span>
+            <select id="sel-tamanho" name="tamanho">
+              <option value="5">5 × 4</option>
+              <option value="7">7 × 4</option>
+              <option value="9" selected>9 × 4</option>
+              <option value="11">11 × 4</option>
+              <option value="13">13 × 4</option>
+              <option value="15">15 × 4</option>
+            </select>
+          </label>
+          <label class="field" id="field-grupo" hidden>
+            <span>Grupo</span>
+            <input type="number" id="sel-grupo" name="grupo" value="99" min="1" max="999" />
+          </label>
+          <label class="field" id="field-primeiro">
+            <span>Primeiro a jogar</span>
+            <select id="sel-primeiro" name="primeiro">
+              <option value="azul" selected>Azuis</option>
+              <option value="vermelho">Vermelhas</option>
+              <option value="aleatorio">Aleatório</option>
+            </select>
+          </label>
+          <fieldset class="field radios" id="field-nivel">
+            <legend>Nível da IA</legend>
+            <label><input type="radio" name="nivel" value="easy" checked /> Fácil</label>
+            <label><input type="radio" name="nivel" value="medium" /> Médio</label>
+            <label><input type="radio" name="nivel" value="hard" /> Difícil</label>
+          </fieldset>
+        </form>
+      </section>
+    </aside>
+  </main>
+
+  <!-- Diálogo: Instruções (único) -->
+  <dialog id="dlg-instrucoes" aria-labelledby="instr-title">
+    <form method="dialog">
+      <header class="dialog-header">
+        <h2 id="instr-title">Instruções</h2>
+      </header>
+
+      <article class="dialog-body">
+        <section style="display:grid;grid-template-columns:1fr;gap:.6rem;max-width:72ch">
+          <div>
+            <strong>Objetivo</strong><br>
+            Eliminar todas as peças do adversário.
+          </div>
+
+          <div>
+            <strong>Tabuleiro e percurso</strong>
+            <ul>
+              <li>Tabuleiro com <b>4 linhas</b>; as colunas variam (7–15, sempre ímpar).</li>
+              <li>Linhas <b>0</b> e <b>2</b> movem para a <b>esquerda</b>; linhas <b>1</b> e <b>3</b> movem para a <b>direita</b>.</li>
+              <li>As setas nas casas são apenas um <em>guia visual</em> de direção.</li>
+            </ul>
+          </div>
+
+          <div>
+            <strong>Dado de paus</strong>
+            <ul>
+              <li>Cada pau tem face <em>clara</em> (1) ou <em>escura</em> (0).</li>
+              <li><b>Valor</b> = número de faces claras (0,1,2,3,4). Se der 0, conta como <b>6</b>.</li>
+              <li><b>Repete a vez</b> se tirar <b>1</b>, <b>4</b> ou <b>6</b>.</li>
+              <li>Exemplos: 0→6 (repete) • 1→1 (repete) • 2→2 • 3→3 • 4→4 (repete).</li>
+            </ul>
+          </div>
+
+          <div>
+            <strong>Movimento</strong>
+            <ul>
+              <li>A peça avança exatamente <b>N</b> casas (N = valor do dado).</li>
+              <li><b>Primeiro movimento de uma peça</b> só é permitido com <b>1</b>.</li>
+              <li>No caminho, você pode <b>atravessar</b> peças (aliadas ou inimigas). A restrição vale apenas no <b>destino</b>.</li>
+              <li><b>Terceira linha</b>: ao alcançá-la, pode escolher seguir para a <b>quarta</b> ou retornar para a <b>segunda</b>.</li>
+              <li>Quando uma peça já esteve na <b>quarta linha</b> (fica “abençoada”), ela <b>não pode voltar a entrar</b> nessa quarta linha.</li>
+              <li>Peça na <b>última linha do adversário</b> só se move se <b>não houver</b> peças suas na <b>linha inicial</b> (1ª linha do seu lado).</li>
+              <li>É <b>proibido pousar</b> na própria <b>linha inicial</b> vindo de outra linha.</li>
+              <li>O destino <b>não pode</b> conter uma peça da mesma cor.</li>
+            </ul>
+          </div>
+
+          <div>
+            <strong>Captura</strong>
+            <ul>
+              <li>Se o destino tiver peça adversária, ela é <b>capturada</b> e removida do tabuleiro.</li>
+            </ul>
+          </div>
+
+          <div>
+            <strong>Passar a vez</strong>
+            <ul>
+              <li>Se o valor do dado <b>não permitir nenhuma jogada válida</b>, clique em <b>Passar</b>. O jogo não passa automaticamente.</li>
+            </ul>
+          </div>
+
+          <div>
+            <strong>Estados das peças</strong>
+            <ul>
+              <li><b>Normal</b>: peça lisa.</li>
+              <li><b>☉ Movida</b>: já se moveu pelo menos uma vez.</li>
+              <li><b>☥ Abençoada</b>: alcançou a última linha do adversário; não pode voltar a entrar nela.</li>
+            </ul>
+          </div>
+
+          <div>
+            <strong>Fim do jogo</strong>
+            <ul>
+              <li>O jogo termina quando um jogador <b>fica sem peças</b>.</li>
+              <li><b>Desistir</b> encerra a partida e dá vitória ao oponente.</li>
+            </ul>
+          </div>
+        </section>
+      </article>
+
+      <footer class="dialog-footer" style="display:flex;justify-content:flex-end;gap:.5rem">
+        <button value="close" class="cmd">Fechar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Diálogo: Classificações -->
+  <dialog id="dlg-classificacoes">
+    <form method="dialog">
+      <header class="dialog-header"><h2>Classificações</h2></header>
+      <article class="dialog-body">
+        <!-- ✅ Resumo por tamanho (vitórias/derrotas do jogador — Azuis) -->
+        <div id="ranking-resumo" style="margin-bottom:.8rem"></div>
+
+        <table class="ranking" id="ranking">
+          <thead>
+            <tr><th>Data</th><th>Tamanho</th><th>Vencedor</th><th>Jogadas</th><th>Duração</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </article>
+      <footer class="dialog-footer">
+        <button id="btn-limpar-ranking" class="cmd" value="clear">Limpar</button>
+        <button value="close" class="cmd">Fechar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="frieze"><span>𓆑</span><span>𓆣</span><span>𓅓</span><span>𓃭</span><span>𓂀</span></div>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
